@@ -1,0 +1,228 @@
+E1.h
+------------------------------------------------------------------------------------------------------------------------------------------
+#ifndef E1_H
+#define E1_H
+
+typedef struct _info{
+    char nombre[32];
+    char apellido[64];
+}INFO;
+
+typedef struct _node{
+    INFO info;
+    struct _node *next;
+    struct _node *prev;
+}NODE;
+
+typedef struct list{
+    NODE *tail;
+    NODE *head;
+} LIST;
+
+LIST *crear_lista();
+void insertar(INFO info, LIST *);
+void eliminar(LIST *l);
+NODE *crear_nodo();
+void borrar_nodos(NODE *n);
+void imprimir(LIST *l);
+
+#endif 
+
+/*
+- Desarrollamos una lista doblemente ligada, en donde se 
+- guardaran el nombre y apellidos de una persona.
+-
+- Creamos estructura "INFO"
+-
+- Hacemos la estrcutura de node (tendra los datos de info)
+-
+- Añadimos los apuntadores prev y next para poder manejar
+- lo que contengan los nodos
+-
+- Creamos la estructura lista, con sus apuntadores de cabezera
+*/
+-----------------------------------------------------------------------------------------------------------------------------------------
+List.c
+-----------------------------------------------------------------------------------------------------------------------------------------
+#include <stdio.h>
+#include <stdlib.h>
+#include "E1.h"
+
+LIST *crear_lista(){
+    LIST* l = (LIST*)malloc(sizeof(LIST));
+    l->head = NULL;
+    l->tail = NULL;
+    return 1;
+}
+
+void insertar(INFO info, LIST*){
+    if (l != NULL){
+        if (l->head  ==  NULL){
+            l->head = crear_nodo();
+            l ->head->info = info;
+            return;
+        }
+        NODE *nuevo = crear_nodo();
+        nuevo->info = info;
+        nuevo->next = l->head;
+        l->head->prev = nuevo;
+        l->head = nuevo;
+    }
+
+}
+
+void eliminar(LIST *l){
+    if (l->head != NULL){
+        borrar_nodos(l->head);
+    }
+    free(l);
+}
+
+NODE *crear_nodo(){
+    NODE *n = (NODE*)malloc(sizeof(NODE));
+    n->prev = NULL;
+    n->next = NULL;
+}
+
+void borrar_nodos(NODE *n){
+    if (l->head != NULL){
+        borrar_nodos(n->next);
+    }
+    n->prev = NULL; //Caso base
+    free(n);
+
+}
+
+void imprimir(LIST *l){
+    for (NODE *i = l->head; i != NULL; i = i->next){
+        printf("%s, %s\n", i->info.nombre, i->info.apellido);
+    }
+}
+
+/*
+- Lo que hacemos basucamente en lis.c es desarrollar
+- los prototipos de las funciones de E1.h
+-
+- Nos enfocaremos mas en la funcion borrrar nodos
+- ya que es recursiva, sabemos que es recursiva porque
+- dentro del if se vuelve a llamar a la función, donde,
+- su caso base (que es el prev de un nodo) es nulo
+-
+*/
+------------------------------------------------------------------------------------------------------------------------------------------
+main.c
+------------------------------------------------------------------------------------------------------------------------------------------
+#include "E1.h"
+#include <stdio.h>
+#include <string.h>
+
+int main(){
+
+    LIST *lista;
+    INFO info [3];
+
+    strcpy (info[0].nombre, "Darrion");
+    strcpy (info[0].apellido, "Rohan Hagenes");
+    strcpy (info[1] .nombre, "Elian");
+    strcpy (info[1] .apellido, "Brenna Langworth");
+    strcpy (info[2] .nombre, "Shania");
+    strcpy (info[2] .apellido, "Carmella Gaylord");
+
+    lista = crear_list();
+
+    insertar (info[0], lista);
+    insertar (info[1], lista);
+    insertar (info[2], lista);
+
+    imprimir (lista);
+
+    eliminar(lista);
+
+    return 0;
+}
+
+/*
+- Creamos un main oara ejecutar las funciones
+- 
+- Utilizamos strcpy debido a que se van a introducir 
+- 3 nombre diferentes, pero se copia la misma cadena
+-
+- Se guarda todo en info[i] para que se imprima la lista
+-
+*/
+
+//EJECUCION
+/* Se imprimen los nombres en forma de lista*/
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+Turtle.py
+------------------------------------------------------------------------------------------------------------------------------------------
+import turtle
+import argparse
+
+def recorrido_recursivo(tortuga, espacio, huellas):
+    if huellas >0:
+        tortuga.stamp()
+        espacio = espacio + 3
+        tortuga.forward(espacio)
+        tortuga.right(24)
+        recorrido_recursivo(tortuga, espacio, huellas-1)
+
+ap = argparse.ArgumentParser()
+ap.add_argument("--huellas", required=true, help="numero de huellas")
+args = vars(ap.parse_args())
+huellas = int(args["huellas"])
+
+wn = turtle.Screen()
+wn.bgcolor("lightgreen")
+wn.title("Tortuga")
+tess = turtle.Turtle()
+tess.shape("turtle")
+tess.color("blue")
+tess.penup()
+recorrido_recursivo(tess, 20, huellas)
+
+wn.mainloop()
+
+""""
+- Importamos "turtle" para ver los pasos que realiza la 
+-
+- Importamos "argparse para mandar datos de entrada por medio
+- de banderas
+-
+- En def recorrido_recursivo se ponen las caracteristicas
+- de los movimientos que hara la "torutuga": 
+- tortuga.forwar (el movimiento de la tortuga(atras, adelante))
+- tortuga.right (movimiento que indica hacias donde habre la tortuga(izq, der))
+-
+- "argparse" nos ayuda para ingresar el numero de huellas que realice
+- la tortuga por medio de a linea de comando:
+- argparse.ArgumentParser()
+-
+- ap.add_argument("--huellas", required=true, help="numero de huellas")
+- lo establecemos para poder ingresar un numero (requiered)
+- y un aviso que indica que el numero es para las huelas
+- 
+- Cons el dato, se convierte en un valor:
+- args = vars(ap.argparse())
+- 
+- El codigo al final iguala el numero de huellas que va a realizar la 
+- tortuga con el valor de entrada: huellas = int (args["huellas])
+-
+""""
+
+""""
+- EJECUCION: 
+- Para ejecutar el ejercicio en forma recursiva, es necesario
+- que en la terminal se escriba el nombre del archivo,
+- despues --huellas y por ultimo el numero de pasos que
+- realice la tortuga
+""""
+------------------------------------------------------------------------------------------------------------------------------------------
+CONCLUSIONES
+
+Los codigos recursivos son una buena opcion si queremos evitar o alternar con las iteraciones, al igual, las soluciones que estos nos
+birndan son naturales. Lo unico malo que nos menciono el profe es que se pueden generar ciclos infinitos pero con un buen manejo o desa-
+-rrollo de las funciones se puede evitar. No menciono que este tipo de algoritmos ocupan mas reucursos porque no creo que sean muchos.
+Que bien es aprender una nueva forma de resover un problema, ya que amplia el conocimiento y ayuda a nuestra practica con los
+algoritmos.
